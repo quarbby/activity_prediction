@@ -157,4 +157,15 @@ def make_datasets(valid_user_list_path, user_tweets_dir, user_acts_dir, cluster_
                             values_path, small_data_dir, SMALL_TRAIN_SIZE, SMALL_TEST_SIZE)
 
 if __name__ == "__main__":
-    make_datasets(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8]) # valid_users tweets_dir acts_dir clusters_file profiles_file values_file full_out_dir small_out_dir
+    # valid_users tweets_dir acts_dir clusters_file profiles_file values_file full_out_dir small_out_dir
+
+    valid_users = 'valid_user_ids.txt'
+    tweets_dir = 'converted_tweets'
+    clusters_file = 'cluster_tweets_out.txt'
+    profiles_file = 'user_profiles.txt'
+    full_out_dir = 'full_out'
+    small_out_dir = 'small_out'
+    acts_dir = ''
+    values_file = ''
+ 
+    make_datasets(valid_users, tweets_dir, acts_dir, clusters_file, profiles_file, values_file, full_out_dir, small_out_dir) 

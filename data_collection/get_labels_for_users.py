@@ -7,9 +7,9 @@ import sys
 # assign labels to each user
 # also need the user <--> activity mapping
 
-def get_labels_for_users(user_list_path, activity_list_path, clusters_file_paths, out_dir, addtl_act_ids_path=None):
+def get_labels_for_users(user_list_path, activity_list_path, clusters_file_paths, clusters_out_file, addtl_act_ids_path=None):
 
-    out_dir = out_dir.rstrip(os.sep) + os.sep
+    #clusters_out_file = clusters_out_file.rstrip(os.sep) + os.sep
 
     # keep a count of the number of users that are given each cluster label
     cluster2user_count = collections.defaultdict(int)
@@ -25,7 +25,7 @@ def get_labels_for_users(user_list_path, activity_list_path, clusters_file_paths
     for clusters_file_path in clusters_file_paths:
         with open(clusters_file_path) as clusters_file:
             for line in clusters_file:
-                aid,cluster = line.strip().split()
+                aid,cluster = line.strip().split(",")
                 aid2cluster[aid] = cluster
 
     # get all activities for each user in the list
@@ -35,8 +35,8 @@ def get_labels_for_users(user_list_path, activity_list_path, clusters_file_paths
     with open(activity_list_path) as activity_list_file:
         header = activity_list_file.readline()
         for line in activity_list_file.readlines():
-            parts = line.split(',',3)
-            userid = parts[1]
+            parts = line.split(',')
+            userid = parts[2]
             aid = parts[0]
 #            user2aids[userid].append(aid)
             cluster_id = aid2cluster.get(aid,None)
@@ -51,19 +51,26 @@ def get_labels_for_users(user_list_path, activity_list_path, clusters_file_paths
     #   setups-- some where we train on all valid clusters and some where we only train on the query cluster.
     #   at test time, we will only evaluate on the prediction of the query activity (which is not in the history)
     for user,clusters in user2clusters.items():
-        print user,' '.join(list(set(clusters)))
-#    with open(out_dir + user,'w') as out_file:
-#            out_file.write(' '.join(list(set(clusters))))
+        print (user,' '.join(list(set(clusters))))
+    with open(clusters_out_file,'w') as out_file:
+        for user, clusters in user2clusters.items():
+            print (user,' '.join(list(set(clusters))))
+            out_file.write(user + ',' + ' '.join(list(set(clusters))) + "\n")
 
 def usage():
     print("usage: python " + os.path.basename(__file__) + " user_list_path activity_list_path cluster_file_path out_dir")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 5:
-        usage()
-    user_list_path = sys.argv[1]
-    activity_list_path = sys.argv[2]
-    cluster_file_path_1 = sys.argv[3]
-    out_dir = sys.argv[4]
+    user_list_path = "valid_user_ids.txt"
+    activity_list_path = "query_output.txt"
+    cluster_file_path_1 = "query.txt"
+    clusters_out_file = "cluster_tweets_out.txt"
 
-    get_labels_for_users(user_list_path, activity_list_path, [cluster_file_path_1], out_dir)
+    #if len(sys.argv) < 5:
+    #    usage()
+    #user_list_path = sys.argv[1]
+    #activity_list_path = sys.argv[2]
+    #cluster_file_path_1 = sys.argv[3]
+    #out_dir = sys.argv[4]
+
+    get_labels_for_users(user_list_path, activity_list_path, [cluster_file_path_1], clusters_out_file)

@@ -76,5 +76,9 @@ def create_valid_user_list(profiles_path, tweets_path, acts_path, glove_path, ac
             print user
 
 if __name__ == "__main__":
+    #profiles_path tweets_path acts_path glove_path activity_list_path
+    profiles_path = "valid_user_ids.txt"
+    tweets_path = "output_tweets/"
+    acts_path = ""
 
-    create_valid_user_list(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5]) #profiles_path tweets_path acts_path glove_path activity_list_path
+    create_valid_user_list(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5]) 

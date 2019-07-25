@@ -33,7 +33,9 @@ def convert(act):
     return " ".join(words)
 
 if __name__ == "__main__":
-    indir,outdir = sys.argv[1],sys.argv[2]
+    indir = "output_tweets"
+    outdir = "converted_tweets"
+    #indir,outdir = sys.argv[1],sys.argv[2]
     for f in os.listdir(indir):
         path = indir.rstrip(os.sep) + os.sep + f
         outpath = outdir.rstrip(os.sep) + os.sep + f
@@ -47,3 +49,4 @@ if __name__ == "__main__":
                             outfile.write(converted + '\n')
                         except:
                             print("Error processing:",line)
+                            continue
