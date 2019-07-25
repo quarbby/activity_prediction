@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 # make both the "full" dataset and and "small" dataset in one shot!
 # let's do this independent of the cluster assignment
@@ -31,10 +32,10 @@ import random
 import shutil
 import sys
 
-FULL_TRAIN_SIZE = 200000
-FULL_TEST_SIZE = 10000
-SMALL_TRAIN_SIZE = 3000
-SMALL_TEST_SIZE = 1000
+FULL_TRAIN_SIZE = 200
+FULL_TEST_SIZE = 28
+SMALL_TRAIN_SIZE = 50
+SMALL_TEST_SIZE = 10
 
 def load_user_list_from_file(path):
     return [x.strip() for x in open(path).readlines()]
@@ -45,29 +46,42 @@ def dir2dir_copy(source_dir, dest_dir, file_list, extension=""):
     for file_name in file_list:
         src = source_dir + file_name + extension
         dst = dest_dir + file_name
-        shutil.copy(src,dst)
+        try:
+            shutil.copy(src,dst)
+        except:
+            pass
 
 def file2dir_copy(source_file_path, dest_dir, valid_list, split_char=None, valid_col=0, data_col=-1, num_splits=-1):
-    dest_dir += os.sep
+    dest_dir = str(dest_dir) + "/"
     found_set = set([])
+
+    print(source_file_path)
+    print(dest_dir)
+
     with open(source_file_path) as source_file:
         for line in source_file:
             line = line.strip('\n')
-            parts = line.split(split_char,num_splits)
-            out_file_name = parts[valid_col]
+            #parts = line.split(split_char,num_splits)
+            parts = line.split(',')
+            out_file_name = parts[0]
             if out_file_name in valid_list:
                 found_set.add(out_file_name)
                 with open(dest_dir + os.sep + out_file_name,'w') as out_file:
                     out_file.write(parts[data_col] + '\n')
-    if len(found_set) != len(valid_list):
-        unfound = valid_list - found_set
-        print("While searching",source_file_path,", didn't find entries for these users:",unfound)
+
+    #valid_list = valid_list.replace("{", "")
+    #valid_list = valid_list.replace("}", "")
+    #valid_list_split = valid_list.split(",")
+
+    #if len(found_set) != len(valid_list_split):
+    #    unfound = set(valid_list_split) - found_set
+    #    print("While searching",source_file_path,", didn't find entries for these users:",unfound)
 
 def make_single_dataset(user_list, user_tweets_dir, user_acts_dir, cluster_file_path, profiles_path, \
                             values_path, out_dir, train_size, test_size):
 
     num_users = len(user_list)
-    assert train_size + test_size < num_users
+    assert train_size + test_size <= num_users
 
     print("Creating directories...")
     sys.stdout.flush()
@@ -162,10 +176,10 @@ if __name__ == "__main__":
     valid_users = 'valid_user_ids.txt'
     tweets_dir = 'converted_tweets'
     clusters_file = 'cluster_tweets_out.txt'
-    profiles_file = 'user_profiles.txt'
+    profiles_file = 'profiles_out'
     full_out_dir = 'full_out'
     small_out_dir = 'small_out'
-    acts_dir = ''
-    values_file = ''
+    acts_dir = 'activities_dir'
+    values_file = 'values.txt'
  
     make_datasets(valid_users, tweets_dir, acts_dir, clusters_file, profiles_file, values_file, full_out_dir, small_out_dir) 

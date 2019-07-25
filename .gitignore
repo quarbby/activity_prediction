@@ -108,3 +108,4 @@ data_collection/converted_tweets/*
 data_collection/output_tweets/*
 data_collection/full_out/*
 data_collection/small_out/*
+data_collection/profiles_out/(

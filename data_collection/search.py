@@ -123,7 +123,7 @@ def get_min_id(r):
             m = res['id']
     return m
 
-def get_profiles_from_users(user_ids_file, user_profile_file):
+def get_profiles_from_users(user_ids_file, user_profile_dir):
 
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
@@ -141,12 +141,14 @@ def get_profiles_from_users(user_ids_file, user_profile_file):
                 if results == None:
                     continue
                 for result in results:
-                    outline = str(result['id']) + '\t' + result['location'] + '\t' + result['description'].replace('\n','<EOL>')
+                    outline = str(result['id']) + ',' + result['location'] + '\t' + result['description'].replace('\n','<EOL>')
                     profiles_output.append(outline)
-                    print (outline.encode('utf-8'))
+                    #print (outline.encode('utf-8'))
                 uid_list = []
 
-    with open(user_profile_file, 'w') as user_profile_file_handle:
+    #print (profiles_output)
+
+    with open(user_profile_file, 'w', encoding='utf-8') as user_profile_file_handle:
         user_profile_file_handle.writelines(["%s\n" % item  for item in profiles_output])
 
 def get_tweets_from_users(user_ids_file, output_dir):
@@ -219,12 +221,12 @@ def get_tweets_from_queries(queries_file, output_file, user_id_file):
 
 if __name__ == "__main__":
     user_id_file = "valid_user_ids.txt"
-    user_profile_file = "user_profiles.txt"
+    user_profile_dir = "profiles_out"
     output_dir = "output_tweets"
     query_file = "query.txt"
     query_output_file = "query_output.txt"
 
     get_tweets_from_queries(query_file, query_output_file, user_id_file)
-    get_profiles_from_users(user_id_file, user_profile_file)
+    get_profiles_from_users(user_id_file, user_profile_dir)
     get_tweets_from_users(user_id_file, output_dir)
 
