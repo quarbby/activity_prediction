@@ -15,10 +15,10 @@ from scp import SCPClient
 
 LIMIT = 10000
 
-APP_KEY = "4RjaJe1bB7n3ebExBYjWT6hFD"
-APP_SECRET = "VafKA8EzSoG8S8YyUK5VX4D5QzQVtzeuXnk46mlgTZgLbxcY6i"
-OAUTH_TOKEN = "1407063558-Jwasvp1cWPxTSJhxBB0HC5KIj108q93qrH6sPi5"
-OAUTH_TOKEN_SECRET = "seFo5iDLSud74ocrmCqbiVrcPz6fSLqX2LnssDPAfZjCk"
+APP_KEY = ""
+APP_SECRET = ""
+OAUTH_TOKEN = ""
+OAUTH_TOKEN_SECRET = ""
 
 sing_attr = ['text','id','source','lang']
 nested_attr = {'user':['id','screen_name','verified','followers_count','friends_count','statuses_count','location','description'],'place':['full_name','id']}
