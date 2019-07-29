@@ -29,4 +29,7 @@ def compute_centroids(data_dir, clusters_file_path, out_path):
             outfile.write(" ".join([str(x) for x in centroid]) + '\n')
 
 if __name__ == "__main__":
-    compute_centroids(sys.argv[1],sys.argv[2],sys.argv[3]) #datadir clusters_file out_file
+    data_dir = "../data/full_out/train/clusters/"
+    clusters_file = "../data/cluster_tweets_out.txt"
+    out_file = "centroids_out.txt"
+    compute_centroids(data_dir, clusters_file, out_file) 

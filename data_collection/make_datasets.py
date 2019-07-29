@@ -58,7 +58,7 @@ def file2dir_copy(source_file_path, dest_dir, valid_list, split_char=None, valid
     print(source_file_path)
     print(dest_dir)
 
-    with open(source_file_path) as source_file:
+    with open(source_file_path, encoding='utf-8') as source_file:
         for line in source_file:
             line = line.strip('\n')
             #parts = line.split(split_char,num_splits)
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     valid_users = 'valid_user_ids.txt'
     tweets_dir = 'converted_tweets'
     clusters_file = 'cluster_tweets_out.txt'
-    profiles_file = 'profiles_out'
+    profiles_file = 'user_profiles_2.txt'
     full_out_dir = 'full_out'
     small_out_dir = 'small_out'
     acts_dir = 'activities_dir'
